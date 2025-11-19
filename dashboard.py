@@ -56,6 +56,19 @@ def cargar_datos():
         df.columns = df.columns.str.strip()
         df['Fecha de Creación'] = pd.to_datetime(df['Fecha de Creación'], errors='coerce')
         df = df.dropna(subset=['Fecha de Creación']).sort_values('Fecha de Creación')
+    except FileNotFoundError:
+        # Generar datos simulados si no existe el archivo
+        st.warning("⚠️ Usando datos simulados para demostración. Para datos reales, configura el archivo Excel en Streamlit Cloud.")
+        fechas = pd.date_range(start='2019-01-01', end='2025-07-31', freq='D')
+        np.random.seed(42)
+        n_registros = 4162
+        df = pd.DataFrame({
+            'Fecha de Creación': np.random.choice(fechas, n_registros),
+            'Barrio': np.random.choice(['BARRIO ABAJO', 'CENTRO', 'MANGA', 'PIE DE LA POPA', 'SAN DIEGO', 
+                                       'ESPINAL', 'BOSTON', 'CABRERO', 'TORICES', 'CRESPO'], n_registros),
+            'Distrito': np.random.choice(['CARTAGENA', 'TURBACO', 'ARJONA'], n_registros, p=[0.8, 0.15, 0.05])
+        })
+        df = df.sort_values('Fecha de Creación')
         
         # Variables temporales
         df['Año'] = df['Fecha de Creación'].dt.year
@@ -98,7 +111,7 @@ df_predicciones = cargar_predicciones()
 
 # ============= SIDEBAR =============
 with st.sidebar:
-    st.image("https://via.placeholder.com/200x80/2E86AB/FFFFFF?text=UTB", use_container_width=True)
+    st.image("https://via.placeholder.com/200x80/2E86AB/FFFFFF?text=UTB", width=200)
     st.markdown("## 🔮 Panel de Control")
     
     # Filtros principales
@@ -153,7 +166,7 @@ with st.sidebar:
     
     # Botón de descarga PDF
     st.markdown("### 📄 Exportar Resultados")
-    if st.button("📥 Generar Reporte PDF", use_container_width=True):
+    if st.button("📥 Generar Reporte PDF", use_column_width=True):
         with st.spinner("Generando reporte..."):
             try:
                 # Llamar a función de generación de PDF
@@ -284,7 +297,7 @@ with tab1:
             template='plotly_white'
         )
         
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, use_column_width=True)
     
     with col2:
         # Tabla de predicciones
@@ -299,7 +312,7 @@ with tab1:
         st.dataframe(
             tabla_pred,
             hide_index=True,
-            use_container_width=True,
+            use_column_width=True,
             height=400
         )
         
@@ -369,7 +382,7 @@ with tab2:
             showlegend=False
         )
         
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, use_column_width=True)
     
     with col2:
         # Estadísticas por barrio
@@ -419,7 +432,7 @@ with tab2:
     st.dataframe(
         tabla_barrios,
         hide_index=True,
-        use_container_width=True,
+        use_column_width=True,
         height=300
     )
 
@@ -455,7 +468,7 @@ with tab3:
             xaxis=dict(tickmode='linear', tick0=0, dtick=2)
         )
         
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, use_column_width=True)
         
         # Estadísticas horarias
         hora_critica = hora_counts.idxmax()
@@ -490,7 +503,7 @@ with tab3:
             template='plotly_white'
         )
         
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, use_column_width=True)
         
         # Estadísticas semanales
         dia_critico = dias_nombres[dia_counts.idxmax()]
@@ -522,7 +535,7 @@ with tab3:
         template='plotly_white'
     )
     
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, use_column_width=True)
     
     # Recomendaciones
     st.markdown("#### 💡 Recomendaciones Operativas")
@@ -599,7 +612,7 @@ with tab4:
             'Valor': ['(0, 1, 1)', '(0, 1, 1, 12)', 'Logarítmica (log1p)', 'Rolling Window', '14 ventanas']
         })
         
-        st.dataframe(modelo_info, hide_index=True, use_container_width=True)
+        st.dataframe(modelo_info, hide_index=True, use_column_width=True)
         
         st.markdown("#### ✅ Validaciones Estadísticas")
         
@@ -609,7 +622,7 @@ with tab4:
             'p-value': ['0.9665', '0.0000', 'Media: 0.0267']
         })
         
-        st.dataframe(validaciones, hide_index=True, use_container_width=True)
+        st.dataframe(validaciones, hide_index=True, use_column_width=True)
     
     with col2:
         st.markdown("#### 🎯 Comparación de Modelos")
@@ -639,7 +652,7 @@ with tab4:
             showlegend=False
         )
         
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, use_column_width=True)
     
     # Conclusión
     st.markdown("#### 💡 Conclusión del Diagnóstico")
