@@ -56,6 +56,20 @@ def cargar_datos():
         df.columns = df.columns.str.strip()
         df['Fecha de Creación'] = pd.to_datetime(df['Fecha de Creación'], errors='coerce')
         df = df.dropna(subset=['Fecha de Creación']).sort_values('Fecha de Creación')
+        
+        # Variables temporales
+        df['Año'] = df['Fecha de Creación'].dt.year
+        df['Mes'] = df['Fecha de Creación'].dt.month
+        df['Mes_Nombre'] = df['Fecha de Creación'].dt.strftime('%B')
+        df['Dia_Semana'] = df['Fecha de Creación'].dt.dayofweek
+        df['Hora'] = df['Fecha de Creación'].dt.hour
+        
+        # Serie mensual
+        df_mensual = df.groupby(pd.Grouper(key='Fecha de Creación', freq='M')).size()
+        df_mensual = pd.DataFrame(df_mensual, columns=['Num_Roturas'])
+        
+        return df, df_mensual
+        
     except FileNotFoundError:
         # Generar datos simulados si no existe el archivo
         st.warning("⚠️ Usando datos simulados para demostración. Para datos reales, configura el archivo Excel en Streamlit Cloud.")
