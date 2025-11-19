@@ -1,0 +1,24 @@
+# Requisitos principales del proyecto
+# Para instalar: pip install -r requirements.txt
+
+# Análisis de datos
+pandas==2.1.3
+numpy==1.26.2
+openpyxl==3.1.2
+
+# Visualización
+matplotlib==3.8.2
+seaborn==0.13.0
+plotly==5.17.0
+
+# Modelado estadístico
+statsmodels==0.14.1
+scikit-learn==1.3.2
+scipy==1.11.4
+
+# Dashboard interactivo (opcional)
+streamlit==1.28.0
+reportlab==4.0.7
+
+# Jupyter
+ipykernel==6.27.1
