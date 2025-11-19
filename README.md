@@ -1,1 +1,1 @@
-# Modelo-predictivo-para-la-prevenci-n-de-da-os-en-la-red-de-gas-natural
+# Modelo predictivo para la prevención  de daños en la red de gas natural
