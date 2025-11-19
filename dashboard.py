@@ -326,7 +326,6 @@ with tab1:
         st.dataframe(
             tabla_pred,
             hide_index=True,
-            use_column_width=True,
             height=400
         )
         
@@ -446,7 +445,6 @@ with tab2:
     st.dataframe(
         tabla_barrios,
         hide_index=True,
-        use_column_width=True,
         height=300
     )
 
@@ -626,7 +624,7 @@ with tab4:
             'Valor': ['(0, 1, 1)', '(0, 1, 1, 12)', 'Logarítmica (log1p)', 'Rolling Window', '14 ventanas']
         })
         
-        st.dataframe(modelo_info, hide_index=True, use_column_width=True)
+        st.dataframe(modelo_info, hide_index=True)
         
         st.markdown("#### ✅ Validaciones Estadísticas")
         
@@ -636,7 +634,7 @@ with tab4:
             'p-value': ['0.9665', '0.0000', 'Media: 0.0267']
         })
         
-        st.dataframe(validaciones, hide_index=True, use_column_width=True)
+        st.dataframe(validaciones, hide_index=True)
     
     with col2:
         st.markdown("#### 🎯 Comparación de Modelos")
