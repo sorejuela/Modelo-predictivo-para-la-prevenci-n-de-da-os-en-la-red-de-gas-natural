@@ -180,7 +180,7 @@ with st.sidebar:
     
     # Botón de descarga PDF
     st.markdown("### 📄 Exportar Resultados")
-    if st.button("📥 Generar Reporte PDF", use_column_width=True):
+    if st.button("📥 Generar Reporte PDF", type="primary", use_container_width=True):
         with st.spinner("Generando reporte..."):
             try:
                 # Llamar a función de generación de PDF
