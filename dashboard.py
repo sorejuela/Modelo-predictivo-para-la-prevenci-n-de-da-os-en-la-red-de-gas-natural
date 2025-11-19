@@ -353,7 +353,7 @@ with tab2:
     barrio_counts = df_filtrado['Barrio'].value_counts().head(top_n_barrios)
     total_meses = len(df_mensual)
     
-    col1, col2 = st.columns([3, 2])
+    col1, col2 = st.columns([3, 2], gap="large")
     
     with col1:
         # Gráfico de barrios
@@ -452,7 +452,7 @@ with tab2:
 with tab3:
     st.markdown("### ⏰ Patrones Temporales de Roturas")
     
-    col1, col2 = st.columns(2)
+    col1, col2 = st.columns(2, gap="large")
     
     with col1:
         # Distribución por hora
@@ -552,7 +552,7 @@ with tab3:
     # Recomendaciones
     st.markdown("#### 💡 Recomendaciones Operativas")
     
-    col1, col2, col3 = st.columns(3)
+    col1, col2, col3 = st.columns(3, gap="medium")
     
     with col1:
         st.success(f"""
@@ -597,7 +597,7 @@ with tab3:
 with tab4:
     st.markdown("### 🔬 Diagnóstico del Modelo SARIMA")
     
-    col1, col2, col3 = st.columns(3)
+    col1, col2, col3 = st.columns(3, gap="medium")
     
     with col1:
         st.metric("Precisión del Modelo", "79.69%", "+1.60%")
@@ -614,7 +614,7 @@ with tab4:
     st.markdown("---")
     
     # Información del modelo
-    col1, col2 = st.columns([2, 1])
+    col1, col2 = st.columns([2, 1], gap="large")
     
     with col1:
         st.markdown("#### 📊 Configuración del Modelo")
