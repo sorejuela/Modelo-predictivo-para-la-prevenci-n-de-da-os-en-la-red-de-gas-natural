@@ -1,9 +1,3 @@
-# Datos sensibles
-*.xlsx
-*.xls
-*.csv
-Copia de base_datos.xlsx
-
 # Entornos virtuales
 .venv/
 venv/
