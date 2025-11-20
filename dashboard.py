@@ -22,27 +22,95 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# CSS personalizado
+# CSS personalizado para mejorar la apariencia
 st.markdown("""
 <style>
+    /* Header principal */
     .main-header {
-        font-size: 2.5rem;
-        font-weight: bold;
+        font-size: 2.2rem;
+        font-weight: 700;
         color: #2E86AB;
         text-align: center;
-        margin-bottom: 1rem;
+        margin-bottom: 0.5rem;
+        padding: 1rem 0;
     }
-    .metric-card {
-        background-color: #f0f2f6;
-        padding: 1rem;
-        border-radius: 0.5rem;
-        border-left: 4px solid #2E86AB;
+    
+    .sub-header {
+        font-size: 1rem;
+        color: #666;
+        text-align: center;
+        margin-bottom: 1.5rem;
     }
+    
+    /* Mejoras en las métricas */
     .stMetric {
-        background-color: #ffffff;
-        padding: 1rem;
+        background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+        padding: 1.2rem;
+        border-radius: 0.8rem;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        border: 1px solid #e9ecef;
+    }
+    
+    .stMetric label {
+        font-size: 0.9rem !important;
+        font-weight: 600 !important;
+        color: #495057 !important;
+    }
+    
+    .stMetric [data-testid="stMetricValue"] {
+        font-size: 1.8rem !important;
+        font-weight: 700 !important;
+        color: #2E86AB !important;
+    }
+    
+    /* Tabs mejorados */
+    .stTabs [data-baseweb="tab-list"] {
+        gap: 8px;
+        background-color: #f8f9fa;
+        padding: 0.5rem;
         border-radius: 0.5rem;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .stTabs [data-baseweb="tab"] {
+        height: 50px;
+        padding: 0 24px;
+        background-color: white;
+        border-radius: 0.5rem;
+        font-weight: 600;
+    }
+    
+    .stTabs [aria-selected="true"] {
+        background-color: #2E86AB !important;
+        color: white !important;
+    }
+    
+    /* Dataframes */
+    .stDataFrame {
+        border: 1px solid #e9ecef;
+        border-radius: 0.5rem;
+    }
+    
+    /* Info/Warning/Success boxes */
+    .stAlert {
+        border-radius: 0.5rem;
+        border-left-width: 4px;
+    }
+    
+    /* Sidebar */
+    [data-testid="stSidebar"] {
+        background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%);
+    }
+    
+    /* Separadores */
+    hr {
+        margin: 2rem 0;
+        border: none;
+        border-top: 2px solid #e9ecef;
+    }
+    
+    /* Espaciado en columnas */
+    [data-testid="column"] {
+        padding: 0 0.5rem;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -202,10 +270,12 @@ with st.sidebar:
 
 # ============= HEADER =============
 st.markdown('<p class="main-header">🔮 Sistema de Predicción de Roturas en Red de Gas</p>', unsafe_allow_html=True)
-st.markdown("**Universidad Tecnológica de Bolívar** | Modelo SARIMA(0,1,1)(0,1,1,12)")
+st.markdown('<p class="sub-header"><strong>Universidad Tecnológica de Bolívar</strong> | Modelo SARIMA(0,1,1)(0,1,1,12)</p>', unsafe_allow_html=True)
 
-# Métricas principales
-col1, col2, col3, col4 = st.columns(4)
+st.markdown("")
+
+# Métricas principales con mejor espaciado
+col1, col2, col3, col4 = st.columns(4, gap="medium")
 
 with col1:
     total_historico = len(df)
@@ -242,6 +312,8 @@ with col4:
         help="Mes con mayor predicción de roturas"
     )
 
+st.markdown("")
+st.markdown("")
 st.markdown("---")
 
 # ============= TABS PRINCIPALES =============
@@ -255,8 +327,9 @@ tab1, tab2, tab3, tab4 = st.tabs([
 # ============= TAB 1: PREDICCIONES =============
 with tab1:
     st.markdown("### 📊 Predicciones Futuras")
+    st.markdown("")
     
-    col1, col2 = st.columns([2, 1])
+    col1, col2 = st.columns([2.5, 1.5], gap="large")
     
     with col1:
         # Gráfico de serie temporal con predicciones
@@ -303,12 +376,23 @@ with tab1:
         )
         
         fig.update_layout(
-            title=f"Serie Temporal y Predicciones ({horizonte} meses)",
+            title={
+                'text': f"Serie Temporal y Predicciones ({horizonte} meses)",
+                'font': {'size': 16, 'color': '#2E86AB', 'family': 'Arial, sans-serif'}
+            },
             xaxis_title="Fecha",
             yaxis_title="Roturas/Mes",
             hovermode='x unified',
-            height=500,
-            template='plotly_white'
+            height=480,
+            template='plotly_white',
+            margin=dict(l=60, r=40, t=60, b=60),
+            legend=dict(
+                orientation="h",
+                yanchor="bottom",
+                y=1.02,
+                xanchor="right",
+                x=1
+            )
         )
         
         st.plotly_chart(fig, use_column_width=True)
@@ -316,6 +400,7 @@ with tab1:
     with col2:
         # Tabla de predicciones
         st.markdown("#### 📋 Tabla de Predicciones")
+        st.markdown("")
         
         tabla_pred = df_pred_filtrado[['Mes_Nombre', 'Prediccion', 'IC_Inferior', 'IC_Superior']].copy()
         tabla_pred.columns = ['Mes', 'Predicción', 'IC Inf.', 'IC Sup.']
@@ -326,16 +411,18 @@ with tab1:
         st.dataframe(
             tabla_pred,
             hide_index=True,
-            height=400
+            height=380
         )
         
+        st.markdown("")
         # Resumen
         total_pred = df_pred_filtrado['Prediccion'].sum()
-        st.info(f"**Total {horizonte} meses:** {total_pred:.0f} roturas")
+        st.info(f"**📊 Total {horizonte} meses:** {total_pred:.0f} roturas esperadas")
 
 # ============= TAB 2: ANÁLISIS ESPACIAL =============
 with tab2:
     st.markdown("### 🗺️ Distribución Espacial de Roturas")
+    st.markdown("")
     
     # Filtrar datos según mes seleccionado
     if mes_seleccionado != 'Todos':
@@ -353,7 +440,7 @@ with tab2:
     barrio_counts = df_filtrado['Barrio'].value_counts().head(top_n_barrios)
     total_meses = len(df_mensual)
     
-    col1, col2 = st.columns([3, 2], gap="large")
+    col1, col2 = st.columns([2.5, 1.5], gap="large")
     
     with col1:
         # Gráfico de barrios
@@ -387,12 +474,16 @@ with tab2:
         ))
         
         fig.update_layout(
-            title=f"Top {top_n_barrios} Barrios con Mayor Incidencia{titulo_adicional}",
+            title={
+                'text': f"Top {top_n_barrios} Barrios con Mayor Incidencia{titulo_adicional}",
+                'font': {'size': 16, 'color': '#2E86AB'}
+            },
             xaxis_title="Roturas" + ("/Mes" if mes_seleccionado == 'Todos' else ""),
             yaxis_title="Barrio",
-            height=400,
+            height=450,
             template='plotly_white',
-            showlegend=False
+            showlegend=False,
+            margin=dict(l=20, r=40, t=60, b=60)
         )
         
         st.plotly_chart(fig, use_column_width=True)
@@ -400,6 +491,7 @@ with tab2:
     with col2:
         # Estadísticas por barrio
         st.markdown("#### 📊 Estadísticas")
+        st.markdown("")
         
         total_top = barrio_counts.sum()
         total_general = len(df_filtrado)
@@ -430,7 +522,10 @@ with tab2:
             )
     
     # Tabla detallada
+    st.markdown("")
+    st.markdown("---")
     st.markdown("#### 📋 Detalle por Barrio")
+    st.markdown("")
     
     tabla_barrios = pd.DataFrame({
         'Ranking': range(1, len(barrio_counts) + 1),
@@ -451,6 +546,7 @@ with tab2:
 # ============= TAB 3: ANÁLISIS TEMPORAL =============
 with tab3:
     st.markdown("### ⏰ Patrones Temporales de Roturas")
+    st.markdown("")
     
     col1, col2 = st.columns(2, gap="large")
     
@@ -472,12 +568,16 @@ with tab3:
         ))
         
         fig.update_layout(
-            title="Distribución por Hora del Día",
+            title={
+                'text': "Distribución por Hora del Día",
+                'font': {'size': 16, 'color': '#2E86AB'}
+            },
             xaxis_title="Hora",
             yaxis_title="Número de Roturas",
-            height=400,
+            height=420,
             template='plotly_white',
-            xaxis=dict(tickmode='linear', tick0=0, dtick=2)
+            xaxis=dict(tickmode='linear', tick0=0, dtick=2),
+            margin=dict(l=60, r=40, t=60, b=60)
         )
         
         st.plotly_chart(fig, use_column_width=True)
@@ -508,11 +608,15 @@ with tab3:
         ))
         
         fig.update_layout(
-            title="Distribución por Día de la Semana",
+            title={
+                'text': "Distribución por Día de la Semana",
+                'font': {'size': 16, 'color': '#2E86AB'}
+            },
             xaxis_title="Día",
             yaxis_title="Número de Roturas",
-            height=400,
-            template='plotly_white'
+            height=420,
+            template='plotly_white',
+            margin=dict(l=60, r=40, t=60, b=60)
         )
         
         st.plotly_chart(fig, use_column_width=True)
@@ -525,7 +629,10 @@ with tab3:
         st.info(f"📅 **Día crítico:** {dia_critico} ({roturas_dia_critico} roturas, {prob_dia:.1f}%)")
     
     # Mapa de calor
+    st.markdown("")
+    st.markdown("---")
     st.markdown("#### 🔥 Mapa de Calor: Día × Hora")
+    st.markdown("")
     
     heatmap_data = df.groupby(['Dia_Semana', 'Hora']).size().unstack(fill_value=0)
     heatmap_data.index = dias_nombres
@@ -540,17 +647,24 @@ with tab3:
     ))
     
     fig.update_layout(
-        title="Concentración de Roturas por Día y Hora",
+        title={
+            'text': "Concentración de Roturas por Día y Hora",
+            'font': {'size': 16, 'color': '#2E86AB'}
+        },
         xaxis_title="Hora del Día",
         yaxis_title="Día de la Semana",
-        height=400,
-        template='plotly_white'
+        height=450,
+        template='plotly_white',
+        margin=dict(l=120, r=40, t=60, b=60)
     )
     
     st.plotly_chart(fig, use_column_width=True)
     
     # Recomendaciones
+    st.markdown("")
+    st.markdown("---")
     st.markdown("#### 💡 Recomendaciones Operativas")
+    st.markdown("")
     
     col1, col2, col3 = st.columns(3, gap="medium")
     
@@ -596,8 +710,9 @@ with tab3:
 # ============= TAB 4: DIAGNÓSTICO =============
 with tab4:
     st.markdown("### 🔬 Diagnóstico del Modelo SARIMA")
+    st.markdown("")
     
-    col1, col2, col3 = st.columns(3, gap="medium")
+    col1, col2, col3 = st.columns(3, gap="large")
     
     with col1:
         st.metric("Precisión del Modelo", "79.69%", "+1.60%")
@@ -657,17 +772,24 @@ with tab4:
         ))
         
         fig.update_layout(
-            title="Evolución de Precisión",
+            title={
+                'text': "Evolución de Precisión",
+                'font': {'size': 14, 'color': '#2E86AB'}
+            },
             yaxis_title="Precisión (%)",
-            height=300,
+            height=280,
             template='plotly_white',
-            showlegend=False
+            showlegend=False,
+            margin=dict(l=60, r=20, t=60, b=60)
         )
         
         st.plotly_chart(fig, use_column_width=True)
     
     # Conclusión
+    st.markdown("")
+    st.markdown("---")
     st.markdown("#### 💡 Conclusión del Diagnóstico")
+    st.markdown("")
     
     st.success("""
     **✅ El modelo SARIMA(0,1,1)(0,1,1,12) es ADECUADO para predicción operativa:**
