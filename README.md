@@ -1,4 +1,4 @@
-# 🔮 Predicción de Roturas en la Red de Gas natural mediante Series Temporales
+# 🔮 Predicción de Roturas en la Red de Gas Natural mediante Series Temporales
 
 [![Python](https://img.shields.io/badge/Python-3.11+-blue.svg)](https://www.python.org/)
 [![SARIMA](https://img.shields.io/badge/Model-SARIMA-green.svg)](https://www.statsmodels.org/)
