@@ -8,12 +8,13 @@ Dashboard web interactivo con generación automática de reportes PDF para visua
 ### 1. Instalar dependencias
 
 ```bash
-pip install -r requirements_dashboard.txt
+# Instalar todas las dependencias del proyecto
+pip install -r requirements.txt
 ```
 
-O instalar individualmente:
+O instalar solo las dependencias del dashboard:
 ```bash
-pip install streamlit plotly reportlab
+pip install streamlit plotly reportlab pandas numpy openpyxl
 ```
 
 ### 2. Ejecutar el dashboard
@@ -26,12 +27,12 @@ El dashboard se abrirá automáticamente en tu navegador en `http://localhost:85
 
 ## 📊 Funcionalidades
 
-### **Panel de Control (Sidebar)**
+### **Filtros de Configuración**
 - 📅 **Selector de horizonte:** Elige entre 3, 6, 9 o 12 meses de predicción
-- 🔍 **Filtro por mes:** Analiza un mes específico en detalle
+- 🔍 **Filtro por mes:** Analiza un mes histórico específico en detalle
 - 🏘️ **Top N barrios:** Ajusta cuántos barrios mostrar (3-15)
-- 📈 **Intervalo de confianza:** Configura el nivel de confianza (80-99%)
-- 📄 **Generar PDF:** Descarga reporte ejecutivo con un click
+
+**Nota:** Los intervalos de confianza están fijos en 95% para todas las visualizaciones.
 
 ### **4 Pestañas Principales**
 

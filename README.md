@@ -466,15 +466,15 @@ Para series temporales con alta variabilidad (CV > 40%), la literatura especiali
 ### Requisitos
 
 ```bash
-Python 3.9+
-pandas==2.3.3
-numpy==2.3.5
-matplotlib==3.10.7
-seaborn==0.13.2
-statsmodels==0.14.5
-scikit-learn==1.7.2
-scipy==1.16.3
-openpyxl==3.1.5
+Python 3.11+
+pandas==2.1.3
+numpy==1.26.2
+matplotlib==3.8.2
+seaborn==0.13.0
+statsmodels==0.14.1
+scikit-learn==1.3.2
+scipy==1.11.4
+openpyxl==3.1.2
 ```
 
 ### Instalación
@@ -492,7 +492,7 @@ source .venv/bin/activate  # En Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 
 # Ejecutar notebook
-jupyter notebook modelo_final_limpio.ipynb
+jupyter notebook modelo.ipynb
 ```
 
 ### Ejecución del Análisis
@@ -512,12 +512,11 @@ jupyter notebook modelo_final_limpio.ipynb
 ## 🚀 **[VER DASHBOARD INTERACTIVO](https://3szq5gtwqevyjs8de7ik5r.streamlit.app/)**
 
 El dashboard incluye:
-- 📊 **Predicciones futuras** con intervalos de confianza (3-12 meses)
+- 📊 **Predicciones futuras** con intervalos de confianza 95% (3-12 meses)
 - 🗺️ **Análisis espacial** por barrios más afectados
 - ⏰ **Patrones temporales** (distribución por hora y día)
 - 🔍 **Diagnóstico del modelo** SARIMA con métricas detalladas
-- 📄 **Generación de reportes PDF** descargables
-- 🎛️ **Filtros interactivos** para personalizar el análisis
+- ⚙️ **Filtros interactivos**: horizonte de predicción, mes histórico, top N barrios
 
 ---
 

@@ -7,7 +7,6 @@ proyectofinal/
 │
 ├── 📓 Notebooks y Scripts
 │   ├── modelo.ipynb                      # Notebook principal - Modelo SARIMA completo
-│   ├── analisis_resultados_fase1.py     # Script de análisis de resultados
 │   └── dashboard.py                      # Dashboard interactivo con Streamlit
 │
 ├── 📊 Visualizaciones
@@ -24,8 +23,7 @@ proyectofinal/
 │   └── ESTRUCTURA_PROYECTO.md           # Este archivo
 │
 ├── ⚙️ Configuración
-│   ├── requirements.txt                  # Dependencias principales
-│   ├── requirements_dashboard.txt        # Dependencias del dashboard
+│   ├── requirements.txt                  # Dependencias del proyecto (incluye dashboard)
 │   └── .gitignore                       # Archivos excluidos del repositorio
 │
 └── 📦 Datos (no incluidos en GitHub)
@@ -74,10 +72,10 @@ Todas las imágenes son generadas automáticamente por el notebook y muestran:
 ### ⚙️ Configuración
 
 #### `requirements.txt`
-Dependencias completas del proyecto para análisis y modelado.
-
-#### `requirements_dashboard.txt`
-Dependencias específicas para ejecutar los dashboards.
+Dependencias completas del proyecto incluyendo:
+- Análisis y modelado (pandas, numpy, statsmodels, scikit-learn)
+- Visualización (matplotlib, seaborn, plotly)
+- Dashboard interactivo (streamlit, reportlab)
 
 #### `.gitignore`
 Excluye archivos sensibles y temporales del repositorio.
@@ -96,7 +94,7 @@ Excluye archivos sensibles y temporales del repositorio.
 
 3. **Visualización Interactiva con Streamlit**:
    ```bash
-   pip install -r requirements_dashboard.txt
+   pip install -r requirements.txt
    streamlit run dashboard.py
    ```
    El dashboard se abrirá automáticamente en http://localhost:8501
