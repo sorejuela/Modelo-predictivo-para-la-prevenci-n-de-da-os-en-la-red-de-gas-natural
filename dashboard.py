@@ -590,7 +590,7 @@ with tab4:
     st.markdown("---")
     
     # Información del modelo
-    col1, col2 = st.columns([2, 1], gap="large")
+    col1, col2 = st.columns(2, gap="large")
     
     with col1:
         st.markdown("#### 📊 Configuración del Modelo")
@@ -600,7 +600,7 @@ with tab4:
             'Valor': ['(0, 1, 1)', '(0, 1, 1, 12)', 'Logarítmica (log1p)', 'Rolling Window', '14 ventanas']
         })
         
-        st.dataframe(modelo_info, hide_index=True)
+        st.dataframe(modelo_info, hide_index=True, use_container_width=True)
         
         st.markdown("#### ✅ Validaciones Estadísticas")
         
@@ -610,7 +610,7 @@ with tab4:
             'p-value': ['0.9665', '0.0000', 'Media: 0.0267']
         })
         
-        st.dataframe(validaciones, hide_index=True)
+        st.dataframe(validaciones, hide_index=True, use_container_width=True)
     
     with col2:
         st.markdown("#### 🎯 Comparación de Modelos")
@@ -633,14 +633,18 @@ with tab4:
         ))
         
         fig.update_layout(
-            title="Evolución de Precisión",
+            title={
+                'text': "Evolución de Precisión",
+                'font': {'size': 14, 'color': '#2E86AB'}
+            },
             yaxis_title="Precisión (%)",
-            height=300,
+            height=350,
             template='plotly_white',
-            showlegend=False
+            showlegend=False,
+            margin=dict(l=50, r=30, t=50, b=50)
         )
         
-        st.plotly_chart(fig, use_column_width=True)
+        st.plotly_chart(fig, use_container_width=True)
     
     # Conclusión
     st.markdown("#### 💡 Conclusión del Diagnóstico")
