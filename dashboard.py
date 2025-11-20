@@ -139,7 +139,7 @@ st.markdown("")
 
 # ============= FILTROS EN LÍNEA =============
 st.markdown("#### ⚙️ Configuración y Filtros")
-col1, col2, col3, col4 = st.columns(4, gap="medium")
+col1, col2, col3 = st.columns(3, gap="large")
 
 with col1:
     # Selector de horizonte de predicción
@@ -185,17 +185,8 @@ with col3:
         key="barrios_slider"
     )
 
-with col4:
-    # Nivel de confianza
-    confianza = st.slider(
-        "Confianza (%)",
-        min_value=80,
-        max_value=99,
-        value=95,
-        step=5,
-        help="Nivel de confianza para las predicciones",
-        key="confianza_slider"
-    )
+# Nivel de confianza fijo en 95%
+confianza = 95
 
 st.markdown("")
 st.markdown("")
@@ -285,7 +276,7 @@ with tab1:
             fill='toself',
             fillcolor='rgba(217, 4, 41, 0.2)',
             line=dict(color='rgba(255,255,255,0)'),
-            name=f'IC {confianza}%',
+            name='IC 95%',
             showlegend=True
         ))
         
@@ -616,7 +607,7 @@ with tab4:
     
     with col1:
         st.metric("Precisión del Modelo", "79.69%", "+1.60%")
-        st.caption("IC 95%: [72.35%, 87.03%]")
+        st.caption("Intervalo de Confianza 95%: [72.35%, 87.03%]")
     
     with col2:
         st.metric("Error Absoluto Medio (MAE)", "10.70", "-21.7%")
