@@ -2,10 +2,10 @@
 
 [![Python](https://img.shields.io/badge/Python-3.11+-blue.svg)](https://www.python.org/)
 [![SARIMA](https://img.shields.io/badge/Model-SARIMA-green.svg)](https://www.statsmodels.org/)
-[![Streamlit](https://img.shields.io/badge/Dashboard-Streamlit-FF4B4B.svg)](https://streamlit.io/)
+[![Streamlit](https://img.shields.io/badge/Dashboard-Streamlit-FF4B4B.svg)](https://3szq5gtwqevyjs8de7ik5r.streamlit.app/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-**Proyecto Final - Modelos de Regresión y Series de Tiempo con Aplicaciones en IA**  
+**🚀 [VER DASHBOARD EN VIVO](https://3szq5gtwqevyjs8de7ik5r.streamlit.app/)** | Proyecto Final - Modelos de Regresión y Series de Tiempo con Aplicaciones en IA  
 Universidad Tecnológica de Bolívar
 
 ---
@@ -495,9 +495,7 @@ pip install -r requirements.txt
 jupyter notebook modelo_final_limpio.ipynb
 ```
 
-### Ejecución
-
-#### Opción 1: Notebook (Análisis Local)
+### Ejecución del Análisis
 
 1. Abrir `modelo.ipynb` en Jupyter Notebook o VS Code
 2. Ejecutar todas las celdas secuencialmente (`Run All`)
@@ -507,46 +505,35 @@ jupyter notebook modelo_final_limpio.ipynb
    - `descomposicion_estacional.png`
    - `proceso_estacionariedad.png`
 
-#### Opción 2: Dashboard Interactivo (Streamlit)
+### 🌐 Dashboard Interactivo en Línea
+
+**Accede al dashboard en vivo sin instalar nada:**
+
+## 🚀 **[VER DASHBOARD INTERACTIVO](https://3szq5gtwqevyjs8de7ik5r.streamlit.app/)**
+
+El dashboard incluye:
+- 📊 **Predicciones futuras** con intervalos de confianza (3-12 meses)
+- 🗺️ **Análisis espacial** por barrios más afectados
+- ⏰ **Patrones temporales** (distribución por hora y día)
+- 🔍 **Diagnóstico del modelo** SARIMA con métricas detalladas
+- 📄 **Generación de reportes PDF** descargables
+- 🎛️ **Filtros interactivos** para personalizar el análisis
+
+---
+
+### 💻 Ejecución Local (Opcional)
+
+Si deseas ejecutar el dashboard localmente:
 
 ```bash
-# Instalar dependencias del dashboard
+# Instalar dependencias
 pip install -r requirements_dashboard.txt
 
-# Ejecutar dashboard localmente
+# Ejecutar dashboard
 streamlit run dashboard.py
 ```
 
-El dashboard se abrirá en `http://localhost:8501` con:
-- 📊 Predicciones futuras con intervalos de confianza
-- 🗺️ Análisis espacial por barrios
-- ⏰ Patrones temporales (hora/día)
-- 🔍 Diagnóstico del modelo
-- 📄 Generación de reportes PDF
-
-### 🌐 Despliegue Web (Acceso Público)
-
-**¿Quieres que cualquiera vea el dashboard sin instalación local?**
-
-#### Deploy en Streamlit Community Cloud (GRATIS)
-
-1. **Sube tu proyecto a GitHub** (este repositorio)
-
-2. **Ve a [Streamlit Cloud](https://streamlit.io/cloud)**
-   - Inicia sesión con GitHub
-   - Haz clic en "New app"
-   - Selecciona este repositorio
-   - Main file: `dashboard.py`
-   - ¡Deploy!
-
-3. **Obtén tu URL pública:**
-   ```
-   https://tu-usuario-proyecto.streamlit.app
-   ```
-
-4. **Comparte la URL** - Cualquiera puede acceder 24/7 sin instalar nada
-
-📖 **Más información:** Toda la configuración necesaria ya está incluida en este repositorio
+El dashboard local se abrirá en `http://localhost:8501`
 
 ---
 
