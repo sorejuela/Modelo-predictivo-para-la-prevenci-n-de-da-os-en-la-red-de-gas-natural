@@ -110,12 +110,21 @@ def cargar_predicciones():
     ic_inferior = [33, 23, 24, 33, 28, 23, 20, 22, 28, 32, 29, 24]
     ic_superior = [123, 99, 114, 174, 168, 148, 112, 125, 145, 165, 158, 132]
     
+    # Nombres de meses en español
+    meses_es = {
+        1: 'Enero', 2: 'Febrero', 3: 'Marzo', 4: 'Abril',
+        5: 'Mayo', 6: 'Junio', 7: 'Julio', 8: 'Agosto',
+        9: 'Septiembre', 10: 'Octubre', 11: 'Noviembre', 12: 'Diciembre'
+    }
+    
     df_pred = pd.DataFrame({
         'Fecha': fechas_futuras,
         'Prediccion': predicciones,
         'IC_Inferior': ic_inferior,
         'IC_Superior': ic_superior,
-        'Mes_Nombre': [f.strftime('%B %Y') for f in fechas_futuras]
+        'Mes_Nombre': [f"{meses_es[f.month]} {f.year}" for f in fechas_futuras],
+        'Año': [f.year for f in fechas_futuras],
+        'Mes': [f.month for f in fechas_futuras]
     })
     
     return df_pred
@@ -129,55 +138,66 @@ st.markdown("**Universidad Tecnológica de Bolívar** | Modelo SARIMA(0,1,1)(0,1
 st.markdown("")
 
 # ============= FILTROS EN LÍNEA =============
-with st.expander("⚙️ Configuración y Filtros", expanded=False):
-    col1, col2, col3, col4 = st.columns(4, gap="medium")
-    
-    with col1:
-        # Selector de horizonte de predicción
-        horizonte = st.selectbox(
-            "Horizonte de predicción",
-            options=[3, 6, 9, 12],
-            index=1,
-            help="Número de meses a predecir"
-        )
-    
-    with col2:
-        # Selector de mes específico
-        meses_disponibles = ['Todos'] + list(df_predicciones['Mes_Nombre'].head(12))
-        mes_seleccionado = st.selectbox(
-            "Mes a analizar",
-            options=meses_disponibles,
-            help="Selecciona un mes para ver detalles específicos"
-        )
-    
-    with col3:
-        # Filtro de barrios
-        top_n_barrios = st.slider(
-            "Top N barrios",
-            min_value=3,
-            max_value=15,
-            value=6,
-            help="Número de barrios con mayor incidencia"
-        )
-    
-    with col4:
-        # Nivel de confianza
-        confianza = st.slider(
-            "Confianza (%)",
-            min_value=80,
-            max_value=99,
-            value=95,
-            step=5,
-            help="Nivel de confianza para las predicciones"
-        )
+st.markdown("#### ⚙️ Configuración y Filtros")
+col1, col2, col3, col4 = st.columns(4, gap="medium")
 
-# Si no hay expander abierto, usar valores por defecto
-if 'horizonte' not in locals():
-    horizonte = 6
-    mes_seleccionado = 'Todos'
-    top_n_barrios = 6
-    confianza = 95
+with col1:
+    # Selector de horizonte de predicción
+    horizonte = st.selectbox(
+        "Horizonte de predicción",
+        options=[3, 6, 9, 12],
+        index=1,
+        help="Número de meses a predecir",
+        key="horizonte_select"
+    )
 
+with col2:
+    # Selector de mes específico - incluir meses históricos
+    # Obtener meses históricos únicos
+    meses_es = {
+        1: 'Enero', 2: 'Febrero', 3: 'Marzo', 4: 'Abril',
+        5: 'Mayo', 6: 'Junio', 7: 'Julio', 8: 'Agosto',
+        9: 'Septiembre', 10: 'Octubre', 11: 'Noviembre', 12: 'Diciembre'
+    }
+    
+    df_meses_hist = df.copy()
+    df_meses_hist['Año_Mes'] = df_meses_hist['Fecha de Creación'].dt.to_period('M')
+    meses_historicos = df_meses_hist['Año_Mes'].unique()
+    meses_hist_nombres = [f"{meses_es[pd.Period(m).month]} {pd.Period(m).year}" for m in sorted(meses_historicos, reverse=True)[:12]]
+    
+    meses_disponibles = ['Todos'] + meses_hist_nombres
+    
+    mes_seleccionado = st.selectbox(
+        "Mes a analizar (histórico)",
+        options=meses_disponibles,
+        help="Selecciona un mes histórico para ver detalles específicos",
+        key="mes_select"
+    )
+
+with col3:
+    # Filtro de barrios
+    top_n_barrios = st.slider(
+        "Top N barrios",
+        min_value=3,
+        max_value=15,
+        value=6,
+        help="Número de barrios con mayor incidencia",
+        key="barrios_slider"
+    )
+
+with col4:
+    # Nivel de confianza
+    confianza = st.slider(
+        "Confianza (%)",
+        min_value=80,
+        max_value=99,
+        value=95,
+        step=5,
+        help="Nivel de confianza para las predicciones",
+        key="confianza_slider"
+    )
+
+st.markdown("")
 st.markdown("")
 
 # Métricas principales
@@ -315,12 +335,31 @@ with tab2:
     
     # Filtrar datos según mes seleccionado
     if mes_seleccionado != 'Todos':
-        mes_fecha = pd.to_datetime(mes_seleccionado)
-        df_filtrado = df[
-            (df['Fecha de Creación'].dt.year == mes_fecha.year) &
-            (df['Fecha de Creación'].dt.month == mes_fecha.month)
-        ]
-        titulo_adicional = f" - {mes_seleccionado}"
+        try:
+            # Parsear el mes seleccionado (formato: "Mes Año")
+            meses_inv = {
+                'Enero': 1, 'Febrero': 2, 'Marzo': 3, 'Abril': 4,
+                'Mayo': 5, 'Junio': 6, 'Julio': 7, 'Agosto': 8,
+                'Septiembre': 9, 'Octubre': 10, 'Noviembre': 11, 'Diciembre': 12
+            }
+            partes = mes_seleccionado.split()
+            mes_num = meses_inv[partes[0]]
+            año_num = int(partes[1])
+            
+            df_filtrado = df[
+                (df['Fecha de Creación'].dt.year == año_num) &
+                (df['Fecha de Creación'].dt.month == mes_num)
+            ]
+            titulo_adicional = f" - {mes_seleccionado}"
+            
+            if len(df_filtrado) == 0:
+                st.warning(f"⚠️ No hay datos para {mes_seleccionado}")
+                df_filtrado = df
+                titulo_adicional = " - Histórico Completo"
+        except Exception as e:
+            st.error(f"Error al filtrar por mes: {e}")
+            df_filtrado = df
+            titulo_adicional = " - Histórico Completo"
     else:
         df_filtrado = df
         titulo_adicional = " - Histórico Completo"
