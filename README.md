@@ -521,22 +521,6 @@ El dashboard incluye:
 
 ---
 
-### 💻 Ejecución Local (Opcional)
-
-Si deseas ejecutar el dashboard localmente:
-
-```bash
-# Instalar dependencias
-pip install -r requirements_dashboard.txt
-
-# Ejecutar dashboard
-streamlit run dashboard.py
-```
-
-El dashboard local se abrirá en `http://localhost:8501`
-
----
-
 ## 📊 Visualizaciones Generadas
 
 ### 1. Resultados del Modelo Final (6 gráficos)
